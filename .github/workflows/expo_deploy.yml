@@ -2,9 +2,9 @@ on:
   push:
     branches:
     - master
-name: deploy 
+name: expo_deploy 
 jobs:
-  deploy:
+  expo_deploy:
     name: Expo Build 
     runs-on: ubuntu-latest
     steps:
