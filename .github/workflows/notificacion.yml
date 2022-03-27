@@ -11,3 +11,18 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: bootCrypto_bot
+        token: 2123628588:AAG38UjKkiRJ73i6Abg0k72PaqWMqQ0VXwY
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+          
+          Repository: ${{ github.repository }}
+          
+          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+${{ secrets.TELEGRAM_TO }}
+${{ secrets.TELEGRAM_TOKEN }}
