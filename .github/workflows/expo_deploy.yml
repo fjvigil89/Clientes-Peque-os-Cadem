@@ -11,8 +11,54 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-  
-        
+    - name: Check for EXPO_TOKEN
+      run: |
+        if [ -z "${{ secrets.EXPO_TOKEN }}" ]; then
+          echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
+          exit 1
+        fi
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: npm
+    
+    - uses: expo/expo-github-action@v7
+      with:
+        expo-version: latest
+        eas-version: latest
+        token: ${{ secrets.EXPO_TOKEN }}
+    
+    - name: Install dependencies
+      run: |
+        npm install 
+        npm install expo-updates -y
+      env:
+        URL_APL: http://google.com
+
+#- name: 🚀 Publish app
+#  run: expo publish --non-interactive
+
+#- name: expo Build
+#  run: |
+#    expo build:android -t apk --non-interactive
+#    echo expo url:apk
+
+  notification_deploy:
+    - name: send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: "622123640"
+          token: 2123628588:AAG38UjKkiRJ73i6Abg0k72PaqWMqQ0VXwY
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+            URL_APK: ${{ env.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
