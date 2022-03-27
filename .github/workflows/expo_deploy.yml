@@ -30,9 +30,7 @@ jobs:
         token: txxybwZzrgmF9OYswICJ2gXcOr9AgQdEwlhdCC-9
     
     - name: Install dependencies
-      run: |
-        npm install 
-        npm install expo-updates -y
+      
       env:
         URL_APL: http://google.com
 
@@ -66,7 +64,7 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          URL_APK: ${{ env.URL_APL }}
+          URL_APK: echo ${{ env.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
