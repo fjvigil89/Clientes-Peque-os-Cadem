@@ -33,7 +33,7 @@ jobs:
       run: |
         npm install 
         npm install expo-updates -y
-        export URL_APL= http://google.com
+        echo URL_APL = http://google.com >> URL_APL
 
 #- name: 🚀 Publish app
 #  run: expo publish --non-interactive
@@ -56,7 +56,7 @@ jobs:
       uses: appleboy/telegram-action@master
       with:
         to: "622123640"
-        token: 2123628588:AAG38UjKkiRJ73i6Abg0k72PaqWMqQ0VXwY
+        token: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
         message: |
           ${{ github.actor }} created commit:
           Commit message: ${{ github.event.commits[0].message }}
