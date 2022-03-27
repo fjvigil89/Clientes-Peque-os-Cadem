@@ -27,10 +27,12 @@ jobs:
       with:
         expo-version: latest
         eas-version: latest
-        token: "txxybwZzrgmF9OYswICJ2gXcOr9AgQdEwlhdCC-9" 
+        token: txxybwZzrgmF9OYswICJ2gXcOr9AgQdEwlhdCC-9
     
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install 
+        npm install expo-updates -y
     
     - name: 🚀 Publish app
       run: expo publish --non-interactive
