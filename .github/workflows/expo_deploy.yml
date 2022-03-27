@@ -33,8 +33,7 @@ jobs:
       run: |
         npm install 
         npm install expo-updates -y
-      env:
-        URL_APL: http://google.com
+        export URL_APL= http://google.com
 
 #- name: 🚀 Publish app
 #  run: expo publish --non-interactive
