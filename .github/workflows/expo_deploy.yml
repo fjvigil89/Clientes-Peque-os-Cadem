@@ -69,7 +69,7 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          URL_APK: echo ${{ jobs.expo_deploy.steps[*].env.URL_APL }}
+          URL_APK: echo ${{ env.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
