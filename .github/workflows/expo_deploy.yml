@@ -13,7 +13,7 @@ jobs:
 
     - name: Check for EXPO_TOKEN
       run: |
-        if [ -z "txxybwZzrgmF9OYswICJ2gXcOr9AgQdEwlhdCC-9" ]; then
+        if [ -z "${{ secrets.EXPO_TOKEN }} " ]; then
           echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
           exit 1
         fi
@@ -27,7 +27,7 @@ jobs:
       with:
         expo-version: latest
         eas-version: latest
-        token: "txxybwZzrgmF9OYswICJ2gXcOr9AgQdEwlhdCC-9"
+        token: ${{ secrets.EXPO_TOKEN }} 
     
     - name: Install dependencies
       run: yarn install
@@ -37,7 +37,7 @@ jobs:
     
     - name: expo Build
       run: |
-        expo build:android -t apk
+        expo build:android -t apk --non-interactive
         echo expo url:apk
         
 #eas update --auto
