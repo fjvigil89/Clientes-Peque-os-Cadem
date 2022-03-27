@@ -2,10 +2,10 @@ on:
   push:
     branches:
     - master
-name: deploy 
+name: notification_deploy 
 jobs:
-  deploy:
-    name: deploy Supi Plus 
+  notification_deploy:
+    name: Notification Deploy Slack 
     runs-on: ubuntu-latest
     steps:
     - name: Checkout

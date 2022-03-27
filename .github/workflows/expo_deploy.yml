@@ -31,6 +31,10 @@ jobs:
     
     - name: Install dependencies
       run: yarn install
+    
+    - name: 🚀 Publish app
+      run: expo publish --non-interactive
+    
     - name: expo Build
       run: |
         expo build:android -t apk
