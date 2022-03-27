@@ -6,7 +6,6 @@ name: expo_deploy
 jobs:
   expo_deploy:
     name: Expo Build
-    id: expo_deploy
     runs-on: ubuntu-latest    
     steps:
     - name: Checkout
