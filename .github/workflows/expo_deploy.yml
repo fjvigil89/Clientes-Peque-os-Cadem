@@ -6,9 +6,8 @@ name: expo_deploy
 jobs:
   expo_deploy:
     name: Expo Build
-    runs-on: ubuntu-latest
-    outputs:
-      URL_APL: ${{ steps.dependencies.outputs.URL_APL }}
+    id: expo_deploy
+    runs-on: ubuntu-latest    
     steps:
     - name: Checkout
       uses: actions/checkout@v2
@@ -35,7 +34,9 @@ jobs:
       run: |
         npm install 
         npm install expo-updates -y
-        echo '::set-output name=URL_APL::http://google.com'
+      env: |
+        URL_APL: http://google.com'
+      
       id: install-dependencies
 
     #- name: 🚀 Publish app
@@ -68,7 +69,7 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          URL_APK: echo ${{ needs.expo_deploy.outputs.URL_APL }}
+          URL_APK: echo ${{ jobs.expo_deploy.steps[*].env.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
