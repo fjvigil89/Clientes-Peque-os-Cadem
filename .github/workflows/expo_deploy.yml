@@ -33,7 +33,7 @@ jobs:
       run: |
         npm install 
         npm install expo-updates -y
-        run: echo '::set-output name=URL_APL::http://google.com'
+        echo '::set-output name=URL_APL::http://google.com'
       id: install-dependencies
 
     #- name: 🚀 Publish app
