@@ -14,8 +14,8 @@ jobs:
     - name: send telegram message on push
       uses: appleboy/telegram-action@master
       with:
-        to: "@bootCrypto_bot"
-        token: 2123628588:AAG38UjKkiRJ73i6Abg0k72PaqWMqQ0VXwY
+        to: "2123628588"
+        token: AAG38UjKkiRJ73i6Abg0k72PaqWMqQ0VXwY
         message: |
           ${{ github.actor }} created commit:
           Commit message: ${{ github.event.commits[0].message }}
