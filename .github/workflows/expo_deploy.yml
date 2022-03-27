@@ -33,15 +33,16 @@ jobs:
       run: |
         npm install 
         npm install expo-updates -y
-        echo URL_APL = http://google.com >> URL_APL
+        run: echo '::set-output name=URL_APL::http://google.com'
+      id: install-dependencies
 
-#- name: 🚀 Publish app
-#  run: expo publish --non-interactive
+    #- name: 🚀 Publish app
+    #  run: expo publish --non-interactive
 
-#- name: expo Build
-#  run: |
-#    expo build:android -t apk --non-interactive
-#    echo expo url:apk
+    #- name: expo Build
+    #  run: |
+    #    expo build:android -t apk --non-interactive
+    #    echo expo url:apk
 
 
   notification_deploy:
@@ -65,7 +66,7 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          URL_APK: echo ${{ env.URL_APL }}
+          URL_APK: echo ${{ jobs.expo_deploy.outputs.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
