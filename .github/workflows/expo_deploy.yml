@@ -46,8 +46,8 @@ jobs:
       if: ${{ failure() }}
       uses: appleboy/telegram-action@master
       with:
-        to: env.BOT_TO
-        token: env.BOT_TOKEN
+        to: ${{env.BOT_TO}}
+        token: ${{env.BOT_TOKEN}}
         message: |
           ${{ github.actor }} Fail to deployment:
           Commit message: ${{ github.event.commits[0].message }}
