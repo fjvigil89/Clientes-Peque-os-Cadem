@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest    
     steps:
     - name: Checkout
+      id: checkout
       uses: actions/checkout@v2
     
     - name: Check NPM
@@ -40,9 +41,12 @@ jobs:
     - name: expo Build
       run: |
         expo build:android -t apk --non-interactive
-        export URL_APK= expo url:apk
+        export URL_APK= 
+      args: |
+          URL=`expo url:apk' | tail -n1` 
+          echo "::set-output name=url::$URL"
       env:
-        URL_APK: echo $URL_APK
+        URL_APK: echo ${{ steps.checkout.outputs.url }}
       
     - name: If Fail step
       if: ${{ failure() }}
