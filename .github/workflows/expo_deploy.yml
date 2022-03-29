@@ -7,17 +7,24 @@ jobs:
   expo_deploy:
     name: Expo Build
     runs-on: ubuntu-latest    
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
+    - id: set-matrix
     - name: Checkout
       uses: actions/checkout@v2
 
-    - name: Check for EXPO_TOKEN
-      run: |
-        if [ -z "${{ secrets.EXPO_TOKEN }} " ]; then
-          echo "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions"
-          exit 1
-        fi
-
+    - name: Check for EXPO_TOKEN  
+      if: ${{ secrets.EXPO_TOKEN }} == " "
+      uses: appleboy/telegram-action@master
+      with:
+        to: "622123640"
+        token: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+          Message: "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions and https://expo.dev/accounts/[account]/settings/access-tokens"  
+      
     - uses: actions/setup-node@v2
       with:
         node-version: 16.x
@@ -31,7 +38,6 @@ jobs:
     
     - name: Install dependencies
       run: |
-        echo ${{ secrets.EXPO_TOKEN }}
         npm install 
         npm install expo-updates -y
 
@@ -45,6 +51,17 @@ jobs:
       env: 
         URL_APL: expo url:apk
 
+    - name: If Fail step
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: "622123640"
+        token: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+          Message: Fail to deployment
+          
 
 
   notification_deploy:
@@ -54,7 +71,6 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-
     - name: send telegram message on push
       uses: appleboy/telegram-action@master
       with:
