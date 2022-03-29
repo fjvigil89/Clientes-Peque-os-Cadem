@@ -1,0 +1,88 @@
+on: 
+  push:
+    branches:
+    - master
+name: expo_deploy
+env:
+  URL_APK: "https://github.com " 
+  BOT_TO: "622123640"
+  BOT_TOKEN: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
+
+jobs:
+  expo_deploy:    
+    name: Expo Build
+    runs-on: ubuntu-latest    
+    steps:
+    - name: Checkout
+      id: checkout
+      uses: actions/checkout@v2
+    
+    - name: Check NPM
+      uses: actions/setup-node@v2
+      with:
+        node-version: 16.x
+        cache: npm
+    
+    - uses: expo/expo-github-action@v7
+      with:
+        expo-version: latest
+        eas-version: latest
+        token: ${{ secrets.EXPO_TOKEN }} 
+    
+    - name: Install dependencies
+      run: |
+        npm install 
+        npm install expo -y
+        npm install expo-updates -y
+
+    - name: 🚀 Publish app
+      run: expo publish --non-interactive
+
+    - name: expo Build
+      run: |
+          expo build:android -t apk --non-interactive
+          export URL=echo`expo url:apk` 
+      env:
+        URL_APK: echo`expo url:apk`
+ 
+    - name: expo show
+      run: echo ${{ env.URL_APK }}
+      
+      
+    - name: If Fail step
+      if: ${{ failure() }}
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{env.BOT_TO}}
+        token: ${{env.BOT_TOKEN}}
+        message: |
+          ${{ github.actor }} Fail to deployment:
+          Commit message: ${{ github.event.commits[0].message }}
+          Message: "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions and https://expo.dev/accounts/[account]/settings/access-tokens"  
+      
+          
+  notification_deploy:
+    name: Notification Deploy Slack
+    runs-on: ubuntu-latest
+    needs: expo_deploy
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: send telegram message on push
+      uses: appleboy/telegram-action@master
+      with:
+        to: ${{env.BOT_TO}}
+        token: ${{env.BOT_TOKEN}}
+        message: |
+          ${{ github.actor }} created commit:
+          Commit message: ${{ github.event.commits[0].message }}
+          
+          Repository: ${{ github.repository }}
+          
+          See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+
+          URL_APK: echo ${{ env.URL_APL }}
+#eas update --auto
+
+#${{ secrets.EXPO_TOKEN }} 
+#txxybwZzrgmF9OYswICJ2gXcOr9AgQdEwlhdCC-9
