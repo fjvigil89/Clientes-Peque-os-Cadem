@@ -4,7 +4,10 @@ on:
     - master
 name: expo_deploy
 env:
-  URL_APL: " " 
+  URL_APK: " " 
+  BOT_TO: "622123640"
+  BOT_TOKEN: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
+
 jobs:
   expo_deploy:    
     name: Expo Build
@@ -12,20 +15,9 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Check for EXPO_TOKEN
-      env:
-        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
-      if: env.EXPO_TOKEN == null
-      uses: appleboy/telegram-action@master
-      with:
-        to: "622123640"
-        token: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
-        message: |
-          ${{ github.actor }} created commit:
-          Commit message: ${{ github.event.commits[0].message }}
-          Message: "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions and https://expo.dev/accounts/[account]/settings/access-tokens"  
-      
-    - uses: actions/setup-node@v2
+    
+    - name: Check NPM
+      uses: actions/setup-node@v2
       with:
         node-version: 16.x
         cache: npm
@@ -48,18 +40,19 @@ jobs:
       run: |
         expo build:android -t apk --non-interactive
         echo expo url:apk
-        ${{env.URL_APL}} = echo expo url:apk
+        ${{env.URL_APK}} = echo expo url:apk
 
     - name: If Fail step
       if: ${{ failure() }}
       uses: appleboy/telegram-action@master
       with:
-        to: "622123640"
-        token: 5239851057:AAGG79kAYJRcep4g6GEWI_OmYUxS96O1dDs
+        to: env.BOT_TO
+        token: env.BOT_TOKEN
         message: |
-          ${{ github.actor }} created commit:
+          ${{ github.actor }} Fail to deployment:
           Commit message: ${{ github.event.commits[0].message }}
-          Message: Fail to deployment
+          Message: "You must provide an EXPO_TOKEN secret linked to this project's Expo account in this repo's secrets. Learn more: https://docs.expo.dev/eas-update/github-actions and https://expo.dev/accounts/[account]/settings/access-tokens"  
+      
           
   notification_deploy:
     name: Notification Deploy Slack
