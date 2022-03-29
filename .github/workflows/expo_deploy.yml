@@ -11,7 +11,9 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
     - name: Check for EXPO_TOKEN  
-      if: ${{ secrets.EXPO_TOKEN == " "}} 
+      env: 
+      EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      if: env.EXPO_TOKEN == " "
       uses: appleboy/telegram-action@master
       with:
         to: "622123640"
