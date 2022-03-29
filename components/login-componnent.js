@@ -6,8 +6,8 @@ import { LogIn, Test } from '../api/api';
 
 export default function Main(props) {
     const [show, setShow] = useState(false);
-    const [user, setUser] = useState("admin");
-    const [pass, setPass] = useState("admin");
+    const [user, setUser] = useState("test");
+    const [pass, setPass] = useState("");
     const [load, setLoad] = useState(false);
 
     const handleClick = () => setShow(!show)
