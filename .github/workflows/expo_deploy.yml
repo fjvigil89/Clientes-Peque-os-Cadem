@@ -40,8 +40,9 @@ jobs:
     - name: expo Build
       run: |
         expo build:android -t apk --non-interactive
+        export URL_APK= expo url:apk
       env:
-        URL_APK: echo expo url:apk
+        URL_APK: echo $URL_APK
       
     - name: If Fail step
       if: ${{ failure() }}
