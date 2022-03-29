@@ -39,10 +39,8 @@ jobs:
       run: expo publish --non-interactive
 
     - name: expo Build
-      run: |
-        expo build:android -t apk --non-interactive
-        export URL_APK= 
       args: |
+          expo build:android -t apk --non-interactive
           URL=`expo url:apk' | tail -n1` 
           echo "::set-output name=url::$URL"
       env:
