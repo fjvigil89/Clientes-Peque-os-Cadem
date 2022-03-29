@@ -41,10 +41,13 @@ jobs:
     - name: expo Build
       run: |
           expo build:android -t apk --non-interactive
-          URL=`expo url:apk' | tail -n1` 
-          echo "::set-output name=url::$URL"
+          export URL=echo`expo url:apk` 
       env:
-        URL_APK: echo ${{ steps.checkout.outputs.url }}
+        URL_APK: echo`expo url:apk`
+ 
+    - name: expo show
+      run: echo ${{ env.URL_APK }}
+      
       
     - name: If Fail step
       if: ${{ failure() }}
