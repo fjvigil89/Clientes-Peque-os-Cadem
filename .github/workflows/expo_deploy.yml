@@ -5,20 +5,17 @@ on:
 name: expo_deploy 
 jobs:
   expo_deploy:
+    env:
+      URL_APL: " "
     name: Expo Build
     runs-on: ubuntu-latest    
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Check for EXPO_TOKEN  
-      env: 
-      EXPO_TOKEN: "debe haber un token"
-      run: |
-        if [ -z ${{ secrets.EXPO_TOKEN }} ]; then
-          ${{ env.EXPO_TOKEN = " "}} 
-        fi
-
-      if: env.EXPO_TOKEN == " "
+    - name: Check for EXPO_TOKEN
+      env:
+        EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+      if: env.EXPO_TOKEN == null
       uses: appleboy/telegram-action@master
       with:
         to: "622123640"
@@ -51,8 +48,7 @@ jobs:
       run: |
         expo build:android -t apk --non-interactive
         echo expo url:apk
-      env: 
-        URL_APL: expo url:apk
+        ${{env.URL_APL}} = echo expo url:apk
 
     - name: If Fail step
       if: ${{ failure() }}
@@ -65,8 +61,6 @@ jobs:
           Commit message: ${{ github.event.commits[0].message }}
           Message: Fail to deployment
           
-
-
   notification_deploy:
     name: Notification Deploy Slack
     runs-on: ubuntu-latest
@@ -87,7 +81,7 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          URL_APK: echo ${{ env.URL_APL }}
+          URL_APK: echo ${{ jobs.expo_deploy.env.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
