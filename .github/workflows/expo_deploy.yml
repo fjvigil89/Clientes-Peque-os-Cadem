@@ -40,10 +40,9 @@ jobs:
 
     - name: expo Build
       run: |
-          expo build:android -t apk --non-interactive
-          export URL=echo`expo url:apk` 
+          expo build:android -t apk --non-interactive     
       env:
-        URL_APK: echo`expo url:apk`
+        URL_APK: expo url:apk
  
     - name: expo show
       run: echo ${{ env.URL_APK }}
