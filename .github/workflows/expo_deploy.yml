@@ -2,11 +2,11 @@ on:
   push:
     branches:
     - master
-name: expo_deploy 
+name: expo_deploy
+env:
+  URL_APL: " " 
 jobs:
-  expo_deploy:
-    env:
-      URL_APL: " "
+  expo_deploy:    
     name: Expo Build
     runs-on: ubuntu-latest    
     steps:
@@ -81,7 +81,7 @@ jobs:
           
           See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
 
-          URL_APK: echo ${{ jobs.expo_deploy.env.URL_APL }}
+          URL_APK: echo ${{ env.URL_APL }}
 #eas update --auto
 
 #${{ secrets.EXPO_TOKEN }} 
