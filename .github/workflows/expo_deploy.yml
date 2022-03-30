@@ -39,7 +39,7 @@ jobs:
 
     - name: expo Build
       run: |
-          `expo build:android -t apk --non-interactive` |tail –n1 |sort -r    
+          expo build:android -t apk --non-interactive  
            
       
     - name: If Fail step
